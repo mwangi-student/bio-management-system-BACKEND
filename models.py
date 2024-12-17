@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, text, integer, VARCHAR, DateTime
-
+from sqlalchemy import Column, Integer, VARCHAR, DateTime, String, ForeignKey
+from datetime import datetime
 # create base model
 Base = declarative_base()
 
@@ -8,13 +8,47 @@ Base = declarative_base()
 # must provide table name via the __tablename__attribute
 # must have at least one columndefined.
 
-class Student(Base):
+class Students(Base):
     __tablename__= "students"
 
-    id = Column(integer(), primary_key=True)
-    name = Column(text(), nullable=False)
-    email = Column(VARCHAR(), nullable=False, unique=True)
-    age = Column(integer(), nullable=False)
-    phone = Column(VARCHAR(), nullable=False, unique=True)
-    created_at = Column(DateTime(), default=DateTime.now)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    email = Column(VARCHAR(255), nullable=False, unique=True)
+    age = Column(Integer, nullable=False)
+    phone = Column(VARCHAR(15), nullable=False, unique=True)
+    created_at = Column(DateTime, default=datetime.now)
+
+class Courses(Base):
+    __tablename__ = "courses"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    course_title = Column(String(255), nullable=False)
+    instructor_id = Column(Integer, ForeignKey('instructors.id'))
+    created_at = Column(DateTime, default=datetime.now)
+
+class Instructors(Base):
+    __tablename__ = "instructors"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    email = Column(VARCHAR(255), nullable=False, unique=True)
+    created_at = Column(DateTime, default=datetime.now)
+
+class Enrollment(Base):
+    __tablename__ = "enrollments"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    course_id  = Column(Integer, ForeignKey('courses.id'))
+    student_id = Column(Integer, ForeignKey('students.id'))
+    created_at = Column(DateTime, default=datetime.now)
+
+class Photos(Base):
+    __tablename__ = "photos"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    url = Column(VARCHAR, nullable=False)
+    student_id = Column(Integer, ForeignKey('students.id'))
+    intstructor_id = Column(Integer, ForeignKey("instructors.id"))
+    course_id = Column(Integer, ForeignKey('courses.id'))
+    created_at = Column(DateTime, default=datetime.now)
 
