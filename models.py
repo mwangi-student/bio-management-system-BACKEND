@@ -1,6 +1,24 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, VARCHAR, DateTime, String, ForeignKey
+from sqlalchemy import Column, Integer, VARCHAR, DateTime, String, ForeignKey, create_engine
+from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+
+# connecting to the db
+engine = create_engine('sqlite:///school.db', echo=True)
+
+# create a session
+session = sessionmaker(bind=engine)
+
+# create an instance
+def get_db():
+    db = session()
+    try:
+        yield db
+
+    finally:
+        db.close()
+
+
 # create base model
 Base = declarative_base()
 
@@ -48,7 +66,7 @@ class Photos(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     url = Column(VARCHAR, nullable=False)
     student_id = Column(Integer, ForeignKey('students.id'))
-    intstructor_id = Column(Integer, ForeignKey("instructors.id"))
+    instructor_id = Column(Integer, ForeignKey("instructors.id"))  
     course_id = Column(Integer, ForeignKey('courses.id'))
     created_at = Column(DateTime, default=datetime.now)
 
