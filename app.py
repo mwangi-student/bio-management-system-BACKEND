@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from models import get_db, Students, Instructors, Courses
 from schemas import CreateStudentSchema, UpdateStudentSchema, CreateInstructorSchema, UpdateInstructorSchema, CreateCourseSchema, UpdateCourseSchema
 
 # Initialize FastAPI
 app = FastAPI()
+
+
+app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_methods=['*'])
 
 @app.get("/")
 def index():
