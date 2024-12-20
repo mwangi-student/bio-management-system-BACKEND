@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from models import get_db, Students, Instructors, Courses
+from models import get_db, Students, Instructors, Courses, Photos
 from schemas import CreateStudentSchema, UpdateStudentSchema, CreateInstructorSchema, UpdateInstructorSchema, CreateCourseSchema, UpdateCourseSchema
 
 # Initialize FastAPI

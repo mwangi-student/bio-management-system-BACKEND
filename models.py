@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, VARCHAR, DateTime, String, ForeignKey, create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
 from datetime import datetime
 
 # connecting to the db
@@ -35,6 +36,9 @@ class Students(Base):
     age = Column(Integer, nullable=False)
     phone = Column(VARCHAR(15), nullable=False, unique=True)
     created_at = Column(DateTime, default=datetime.now)
+    instructor_id = Column(Integer, ForeignKey("instructors.id"))
+    course_id = Column(Integer, ForeignKey("courses.id"))
+
 
 class Courses(Base):
     __tablename__ = "courses"
@@ -51,15 +55,6 @@ class Instructors(Base):
     name = Column(String(255), nullable=False)
     email = Column(VARCHAR(255), nullable=False, unique=True)
     created_at = Column(DateTime, default=datetime.now)
-
-class Enrollment(Base):
-    __tablename__ = "enrollments"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    course_id  = Column(Integer, ForeignKey('courses.id'))
-    student_id = Column(Integer, ForeignKey('students.id'))
-    created_at = Column(DateTime, default=datetime.now)
-
 class Photos(Base):
     __tablename__ = "photos"
 
@@ -69,4 +64,5 @@ class Photos(Base):
     instructor_id = Column(Integer, ForeignKey("instructors.id"))  
     course_id = Column(Integer, ForeignKey('courses.id'))
     created_at = Column(DateTime, default=datetime.now)
+
 

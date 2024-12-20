@@ -50,22 +50,6 @@ class InstructorResponseSchema(BaseModel):
     class Config:
         from_attributes = True  # Updated from 'orm_mode' to 'from_attributes'
 
-
-# Schemas for Enrollments
-class CreateEnrollmentSchema(BaseModel):
-    course_id: int
-    student_id: int
-
-class EnrollmentResponseSchema(BaseModel):
-    id: int
-    course_id: int
-    student_id: int
-    created_at: datetime
-
-    class Config:
-        from_attributes = True  # Updated from 'orm_mode' to 'from_attributes'
-
-
 # Schemas for Photos
 class CreatePhotoSchema(BaseModel):
     url: str
@@ -100,6 +84,3 @@ class UpdateInstructorSchema(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
 
-class UpdateEnrollmentSchema(BaseModel):
-    course_id: Optional[int] = None
-    student_id: Optional[int] = None
